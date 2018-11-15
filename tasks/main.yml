@@ -3,7 +3,7 @@
   shell: "go get -u {{ item }}"
   environment:
     GOPATH: "/go"
-  when: cfssl_docker is false
+  when: not cfssl_docker
 - name: ensure output directory exists
   file:
     path: "{{ cfssl_output }}"
