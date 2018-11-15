@@ -14,12 +14,12 @@
 - name: copy ca config template
   template:
     src: config.json
-    dest: output/config.json
+    dest: "{{ cfssl_output }}/config.json"
 - name: manage ca certificate
   block:
     - name: check if ca cert has expired
       openssl_certificate:
-        path: output/ca.{{ cfssl_domain }}.pem
+        path: "{{ cfssl_output }}/ca.{{ cfssl_domain }}.pem"
         has_expired: False
         valid_at: "{{ cfssl_valid_at }}"
   rescue:
@@ -30,11 +30,11 @@
   block:
     - name: check if cert has expired
       openssl_certificate:
-        path: output/{{ cfssl_filename }}.pem
+        path: "{{ cfssl_output }}/{{ cfssl_filename }}.pem"
         has_expired: False
         valid_at: "{{ cfssl_valid_at }}"
     - name: check if our ca cert is valid for this cert
-      shell: "[[ $(openssl verify -CAfile output/ca.{{ cfssl_domain }}.pem output/{{ cfssl_filename }}.pem |& grep OK | wc -c) -ne 0 ]]"
+      shell: "[[ $(openssl verify -CAfile {{ cfssl_output }}/ca.{{ cfssl_domain }}.pem {{ cfssl_output }}/{{ cfssl_filename }}.pem |& grep OK | wc -c) -ne 0 ]]"
       args:
         executable: /bin/bash
       changed_when: False
