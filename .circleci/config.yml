@@ -39,7 +39,7 @@ jobs:
           command: |
             python -m virtualenv ~/venv
             . ~/venv/bin/activate
-            pip install --upgrade pip "ansible==$ANSIBLE_VERSION"
+            pip install --upgrade pip "ansible==$ANSIBLE_VERSION" pyopenssl
             echo '[defaults]' >> ansible.cfg
             echo 'roles_path = ../' >> ansible.cfg
             echo 'host_key_checking = False' >> ansible.cfg
