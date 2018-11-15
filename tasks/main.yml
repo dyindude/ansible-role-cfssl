@@ -3,6 +3,7 @@
   shell: "go get -u {{ item }}"
   environment:
     GOPATH: "/go"
+    PATH: "/go/bin:/usr/local/go/bin:$PATH"
   when: not cfssl_docker
   with_items:
     - github.com/cloudflare/cfssl/cmd/cfssl
