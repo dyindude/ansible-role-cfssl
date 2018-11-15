@@ -4,6 +4,9 @@
   environment:
     GOPATH: "/go"
   when: not cfssl_docker
+  with_items:
+    - github.com/cloudflare/cfssl/cmd/cfssl
+    - github.com/cloudflare/cfssl/cmd/cfssljson
 - name: ensure output directory exists
   file:
     path: "{{ cfssl_output }}"
