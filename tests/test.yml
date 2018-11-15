@@ -4,5 +4,6 @@
   vars:
     cfssl: cfssl
     cfssljson: cfssljson
+    cfssl_output: "workdir/output"
   roles:
     - dyindude.cfssl

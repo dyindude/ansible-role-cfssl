@@ -3,12 +3,12 @@
     var: cfssl_valid_at
 - name: ensure output directory exists
   file:
-    path: output
+    path: "{{ cfssl_output }}"
     state: directory
 - name: write out ca template
   template:
     src: cfssl.json
-    dest: output/{{ cfssl_domain }}.json
+    dest: "{{ cfssl_output }}/{{ cfssl_domain }}.json"
   with_items:
     - "{{ cfssl_hosts }}"
 - name: copy ca config template
