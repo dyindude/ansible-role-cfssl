@@ -1,5 +1,8 @@
 ---
 - hosts: localhost
   remote_user: root
+  vars:
+    cfssl: cfssl
+    cfssljson: cfssljson
   roles:
     - dyindude.cfssl
