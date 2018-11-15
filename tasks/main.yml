@@ -1,4 +1,8 @@
 ---
+- name: ensure python-openssl is installed (required for cert validation)
+  package:
+    name: python-openssl
+    state: present
 - name: install cfssl with go
   shell: "go get -u {{ item }}"
   environment:
