@@ -11,7 +11,6 @@
   template:
     src: config.json
     dest: output/config.json
-
 - name: manage ca certificate
   block:
     - name: check if ca cert has expired
