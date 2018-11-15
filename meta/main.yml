@@ -1,6 +1,6 @@
 galaxy_info:
   author: dyindude
-  description: install and set up cfssl
+  description: Manage certificate chain with cfssl. Optionally install cfssl instead of running it from docker.
   role_name: cfssl
   company: dyindude.net
   issue_tracker_url: "https://github.com/dyindude/ansible-role-cfssl"
