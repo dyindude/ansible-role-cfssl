@@ -37,16 +37,16 @@ jobs:
             apt-get update
             apt-get -y install git ssh tar gzip ca-certificates
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dep-{{ .Environment.ANSIBLE_VERSION }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dep-
+#      # Download and cache dependencies
+#      - restore_cache:
+#          keys:
+#          - v1-dep-{{ .Environment.ANSIBLE_VERSION }}
+#          # fallback to using the latest cache if no exact match is found
+#          - v1-dep-
       - run:
           name: install dependencies
           command: |
-            apt-get -y install build-essential python python-dev python-virtualenv
+          apt-get -y install build-essential python python-dev python-virtualenv python-openssl
             python -m virtualenv ~/venv
             . ~/venv/bin/activate
             pip install --upgrade pip "ansible==$ANSIBLE_VERSION"
@@ -54,11 +54,11 @@ jobs:
             echo 'roles_path = ../' >> ansible.cfg
             echo 'host_key_checking = False' >> ansible.cfg
 
-      - save_cache:
-          paths:
-            - ./~venv
-            - ./ansible.cfg
-          key: v1-dep-{{ .Environment.ANSIBLE_VERSION }}
+#      - save_cache:
+#          paths:
+#            - ./~venv
+#            - ./ansible.cfg
+#          key: v1-dep-{{ .Environment.ANSIBLE_VERSION }}
         
       - run:
           name: run tests
