@@ -1,7 +1,7 @@
-Role Name
+dyindude.cfssl
 =========
 
-A brief description of the role goes here.
+Role for generating/maintaining PKI certificate chain leveraging cfssl.
 
 Requirements
 ------------
