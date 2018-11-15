@@ -1,6 +1,10 @@
 ---
 - debug:
     var: cfssl_valid_at
+- name: ensure output directory exists
+  file:
+    path: output
+    state: directory
 - name: write out ca template
   template:
     src: cfssl.json
