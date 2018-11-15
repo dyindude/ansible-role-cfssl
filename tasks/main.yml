@@ -1,6 +1,9 @@
 ---
-- debug:
-    var: cfssl_valid_at
+- name: install cfssl with go
+  shell: "go get -u {{ item }}"
+  environment:
+    GOPATH: "/go"
+  when: cfssl_docker is false
 - name: ensure output directory exists
   file:
     path: "{{ cfssl_output }}"
