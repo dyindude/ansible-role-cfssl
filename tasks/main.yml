@@ -1,0 +1,41 @@
+---
+- debug:
+    var: cert_valid_at
+- name: write out ca template
+  template:
+    src: cfssl.json
+    dest: output/{{ cert_domain }}.json
+  with_items:
+    - "{{ cert_hosts }}"
+- name: copy ca config template
+  template:
+    src: config.json
+    dest: output/config.json
+
+- name: manage ca certificate
+  block:
+    - name: check if ca cert has expired
+      openssl_certificate:
+        path: output/ca.{{ cert_domain }}.pem
+        has_expired: False
+        valid_at: "{{ cert_valid_at }}"
+  rescue:
+    - name: generate ca cert/key
+      shell: "{{ cfssl }} genkey -initca workdir/output/{{ cert_domain }}.json | {{ cfssljson }} -bare workdir/output/ca.{{ cert_domain }}"
+
+- name: manage host certificate
+  block:
+    - name: check if cert has expired
+      openssl_certificate:
+        path: output/{{ cert_filename }}.pem
+        has_expired: False
+        valid_at: "{{ cert_valid_at }}"
+    - name: check if our ca cert is valid for this cert
+      shell: "[[ $(openssl verify -CAfile output/ca.{{ cert_domain }}.pem output/{{ cert_filename }}.pem |& grep OK | wc -c) -ne 0 ]]"
+      args:
+        executable: /bin/bash
+      changed_when: False
+  rescue:
+    - name: generate host certs/keys
+      shell: "{{ cfssl }} gencert -ca workdir/output/ca.{{ cert_domain }}.pem -ca-key workdir/output/ca.{{ cert_domain }}-key.pem -cn={{ cert_hosts | map('regex_replace','$','.' + cert_domain) | list | first }} -hostname={{ (cert_hosts_canonical + ((cert_hosts | map('regex_replace','$','.' + cert_domain)) | list)) | join(',') }} -config=workdir/output/config.json -profile={{ cert_profile }} workdir/output/{{ cert_domain }}.json | {{ cfssljson }} -bare workdir/output/{{ cert_filename }}"
+
