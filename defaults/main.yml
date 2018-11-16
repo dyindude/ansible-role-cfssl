@@ -8,6 +8,7 @@ cfssl_valid_at: "{{ lookup('pipe', cfssl_date_command + ' --date=30days +%Y%m%d%
 cfssl_force_regenerate: false
 cfssl_hosts:
   - "www"
+  - "www2"
 cfssl_filename: "{{ ((cfssl_hosts | first) == '*') | ternary('wildcard', cfssl_hosts | first) + '.' + cfssl_domain }}"
 cfssl_hosts_canonical: "{{ cfssl_canonical | default(false) | bool | ternary([cfssl_domain], []) }}"
 cfssl_canonical: false
