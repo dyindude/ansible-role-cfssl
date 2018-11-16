@@ -1,4 +1,5 @@
 ---
+- shell: pwd
 - name: ensure python-openssl is installed (required for cert validation)
   package:
     name: python-openssl
