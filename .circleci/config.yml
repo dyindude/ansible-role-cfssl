@@ -67,4 +67,7 @@ jobs:
             ansible-playbook -i tests/inventory tests/test.yml
             ansible-playbook -i tests/inventory tests/test.yml
             ls -Alh
+            cd ..
+            pwd
+            ls -Alh
             ls -Alh workdir/output
